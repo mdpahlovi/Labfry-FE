@@ -1,5 +1,6 @@
 import Button from "@/components/ui/Button";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function RolePage() {
     return (
@@ -11,8 +12,16 @@ export default function RolePage() {
                     <p className="mt-2 text-gray-600">Choose the option that best describes you so we can tailor your experience.</p>
                 </div>
                 <div className="mt-10 mx-16 w-[530px] grid gap-5">
-                    <Button variant="outline">I’m a Customer</Button>
-                    <Button variant="secondary">I’m a Service Provider</Button>
+                    <Link href="/login?role=customer">
+                        <Button variant="outline" className="w-full">
+                            I’m a Customer
+                        </Button>
+                    </Link>
+                    <Link href="/login?role=provider">
+                        <Button variant="secondary" className="w-full">
+                            I’m a Service Provider
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </div>

@@ -1,6 +1,17 @@
 import Button from "@/components/ui/Button";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { isInvalidEmail, isInvalidFlow, isInvalidRole } from "@/utils/utils";
 
-export default function SuccessPage() {
+export default async function SuccessPage(props: { searchParams?: Promise<{ email?: string; role?: string; flow?: string }> }) {
+    const email = await props.searchParams?.then((params) => params?.email);
+    const role = await props.searchParams?.then((params) => params?.role);
+    const flow = await props.searchParams?.then((params) => params?.flow);
+
+    if (isInvalidEmail(email) || isInvalidRole(role) || isInvalidFlow(flow)) {
+        return redirect("/role");
+    }
+
     return (
         <div className="w-full max-w-[480px] flex flex-col items-center gap-10">
             <div className="h-20 w-20 rounded-full bg-[#06C270] flex items-center justify-center">
@@ -11,8 +22,21 @@ export default function SuccessPage() {
                     />
                 </svg>
             </div>
-            <h2 className="text-3xl text-center font-bold tracking-tight text-gray-900">Account Created Successfully!</h2>
-            <Button className="w-full">Go to Home</Button>
+            {flow === "register" ? (
+                <>
+                    <h2 className="text-3xl text-center font-bold tracking-tight text-gray-900">Account Created Successfully!</h2>
+                    <Link href="/">
+                        <Button className="w-full">Go to Home</Button>
+                    </Link>
+                </>
+            ) : (
+                <>
+                    <h2 className="text-3xl text-center font-bold tracking-tight text-gray-900">Password Changed Successfully!</h2>
+                    <Link href={`/login?role=${role}`}>
+                        <Button className="w-full">Go to Login</Button>
+                    </Link>
+                </>
+            )}
         </div>
     );
 }

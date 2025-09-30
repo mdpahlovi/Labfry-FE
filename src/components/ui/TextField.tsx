@@ -82,7 +82,7 @@ const TextField: React.FC<TextFieldProps> = ({
                 )}
                 {icon && iconPosition === "left" && <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">{icon}</div>}
             </div>
-            {error && <p className="mt-1 text-sm text-red-500">{error}</p>}
+            {error && <p className="mt-0.5 text-sm leading-4 text-red-500">{error}</p>}
         </div>
     );
 };
