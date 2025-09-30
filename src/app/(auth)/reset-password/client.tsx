@@ -28,7 +28,7 @@ export default function ResetPasswordForm({ email, role, flow }: { email: string
             try {
                 await axios.post("/auth/reset-password", { email, password });
                 toast.success("Password reset successfully");
-                router.push(`/success?email=${email}&role=${role}&flow=${flow}`);
+                router.replace(`/success?email=${email}&role=${role}&flow=${flow}`);
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (error: any) {
                 toast.error(error?.message || "Something went wrong");

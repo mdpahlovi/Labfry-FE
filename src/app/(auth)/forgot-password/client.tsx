@@ -24,7 +24,7 @@ export function ForgotPasswordForm({ role }: { role: string }) {
             try {
                 await axios.post("/auth/forgot-password", { email: values.email });
                 toast.success("Password reset code sent successfully. Please check your email");
-                router.push(`/verify?email=${values.email}&role=${role}&flow=password`);
+                router.replace(`/verify?email=${values.email}&role=${role}&flow=password`);
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (error: any) {
                 toast.error(error?.message || "Something went wrong");

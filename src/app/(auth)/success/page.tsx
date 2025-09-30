@@ -2,6 +2,7 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { isInvalidEmail, isInvalidFlow, isInvalidRole } from "@/utils/utils";
+import { LoginUser } from "./client";
 
 export default async function SuccessPage(props: { searchParams?: Promise<{ email?: string; role?: string; flow?: string }> }) {
     const email = await props.searchParams?.then((params) => params?.email);
@@ -28,6 +29,7 @@ export default async function SuccessPage(props: { searchParams?: Promise<{ emai
                     <Link href="/">
                         <Button className="w-full">Go to Home</Button>
                     </Link>
+                    <LoginUser email={email!} role={role!} flow={flow!} />
                 </>
             ) : (
                 <>

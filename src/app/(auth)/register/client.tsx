@@ -38,7 +38,7 @@ export function RegisterForm({ role }: { role: string }) {
             try {
                 await axios.post("/auth/signup", { ...value, role: role.toUpperCase() });
                 toast.success("Verification code sent successfully. Please check your email");
-                router.push(`/verify?email=${value.email}&role=${role}&flow=register`);
+                router.replace(`/verify?email=${value.email}&role=${role}&flow=register`);
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (error: any) {
                 toast.error(error?.message || "Something went wrong");

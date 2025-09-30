@@ -3,8 +3,13 @@
 import Button from "@/components/ui/Button";
 import Checkbox from "@/components/ui/Checkbox";
 import TextField from "@/components/ui/TextField";
+import { setAccToken, setRefToken, setUser } from "@/lib/features/auth/authSlice";
+import { useAppDispatch } from "@/lib/hooks";
+import axios from "@/utils/axios";
 import { useFormik } from "formik";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 const loginSchema = Yup.object({
@@ -12,7 +17,10 @@ const loginSchema = Yup.object({
     password: Yup.string().required("Password is required"),
 });
 
-export function LoginForm({ role }: { role: string }) {
+export function LoginForm({}: { role: string }) {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -20,8 +28,25 @@ export function LoginForm({ role }: { role: string }) {
             rememberMe: false,
         },
         validationSchema: loginSchema,
-        onSubmit: (values) => {
-            alert(JSON.stringify({ role, ...values }, null, 2));
+        onSubmit: async ({ email, password }) => {
+            try {
+                const response = await axios.post("/auth/login", { email, password });
+                const { user, accToken, refToken } = response.data;
+
+                if (user && accToken && refToken) {
+                    dispatch(setUser(user));
+                    dispatch(setAccToken(accToken));
+                    dispatch(setRefToken(refToken));
+                    toast.success("User logged in successfully");
+
+                    router.replace("/");
+                } else {
+                    toast.error("Something went wrong");
+                }
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            } catch (error: any) {
+                toast.error(error?.message || "Something went wrong");
+            }
         },
     });
 

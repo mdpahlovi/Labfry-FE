@@ -51,9 +51,9 @@ export function VerifyForm({ email, role, flow }: { email: string; role: string;
             toast.success("Account verified successfully");
 
             if (flow === "register") {
-                router.push(`/success?email=${email}&role=${role}&flow=${flow}`);
+                router.replace(`/success?email=${email}&role=${role}&flow=${flow}`);
             } else if (flow === "password") {
-                router.push(`/reset-password?email=${email}&role=${role}&flow=${flow}`);
+                router.replace(`/reset-password?email=${email}&role=${role}&flow=${flow}`);
             }
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
