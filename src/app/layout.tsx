@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Public_Sans } from "next/font/google";
+import AuthGuard from "./AuthGuard";
 import Provider from "./Provider";
 
 const publicSans = Public_Sans({ subsets: ["latin"] });
@@ -16,7 +17,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={publicSans.className}>
-                <Provider>{children}</Provider>
+                <Provider>
+                    <AuthGuard>{children}</AuthGuard>
+                </Provider>
             </body>
         </html>
     );
