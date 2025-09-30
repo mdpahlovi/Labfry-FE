@@ -34,7 +34,7 @@ const TextField: React.FC<TextFieldProps> = ({
     return (
         <div className={`relative w-full ${className}`}>
             {label && (
-                <label htmlFor={name} className="absolute left-4 top-1/2 -translate-y-1/2 mb-1 block text-sm font-medium text-gray-700">
+                <label htmlFor={name} className="absolute left-4 top-1/2 -translate-y-1/2 mb-1 block text-sm font-medium text-gray-600">
                     {label}
                 </label>
             )}
@@ -46,9 +46,9 @@ const TextField: React.FC<TextFieldProps> = ({
                     value={value}
                     onChange={onChange}
                     placeholder=" "
-                    className={`peer w-full rounded-lg border px-4 py-3.5 text-gray-800 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 ${
-                        error ? "border-red-500" : "border-gray-300"
-                    } ${icon && iconPosition === "right" ? "pr-10" : ""} ${icon && iconPosition === "left" ? "pl-10" : ""}`}
+                    className={`peer w-full rounded-lg border border-gray-300 px-4 py-3.5 text-gray-800 ${error ? "border-red-500" : ""} ${
+                        icon && iconPosition === "right" ? "pr-10" : ""
+                    } ${icon && iconPosition === "left" ? "pl-10" : ""}`}
                 />
                 {type === "password" && (
                     <button

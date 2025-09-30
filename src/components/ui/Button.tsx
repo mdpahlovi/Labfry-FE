@@ -10,12 +10,12 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ children, onClick, type = "button", variant = "primary", className = "", disabled = false }) => {
-    const baseStyles = "flex items-center justify-center rounded-lg px-4 py-3 font-medium transition-colors";
+    const baseStyles = "flex items-center justify-center rounded-xl px-4 py-3 font-semibold transition-colors";
 
     const variantStyles = {
-        primary: "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500",
-        secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500",
-        outline: "border border-gray-300 bg-transparent text-gray-800 hover:bg-gray-100 focus:ring-gray-500",
+        primary: "bg-[#EE3638] text-white hover:bg-[#EE3638]/80",
+        secondary: "border border-gray-300 bg-gray-200 text-gray-800 hover:bg-gray-300",
+        outline: "border border-[#EE3638] bg-[#EE3638]/10 text-[#EE3638] hover:bg-[#EE3638]/20",
     };
 
     return (
