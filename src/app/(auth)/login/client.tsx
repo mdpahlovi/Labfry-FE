@@ -17,7 +17,7 @@ const loginSchema = Yup.object({
     password: Yup.string().required("Password is required"),
 });
 
-export function LoginForm({}: { role: string }) {
+export function LoginForm({ role }: { role: string }) {
     const router = useRouter();
     const dispatch = useAppDispatch();
 
@@ -77,7 +77,7 @@ export function LoginForm({}: { role: string }) {
                     error={formik.errors.rememberMe}
                 />
                 <div className="text-sm">
-                    <Link href="/forgot-password" className="font-medium text-[#EE3638] hover:text-[#EE3638]/80">
+                    <Link href={`/forgot-password?role=${role}`} className="font-medium text-[#EE3638] hover:text-[#EE3638]/80">
                         Forgot password?
                     </Link>
                 </div>
