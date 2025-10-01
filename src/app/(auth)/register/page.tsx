@@ -25,7 +25,7 @@ export default async function SignupPage(props: { searchParams?: Promise<{ role?
             <p className="mt-8 text-sm text-center">
                 Already have an account?{" "}
                 <Link href={`/login?role=${role}`} className="font-medium text-[#EE3638] hover:text-[#EE3638]/80">
-                    Sign in
+                    Login
                 </Link>
             </p>
         </div>

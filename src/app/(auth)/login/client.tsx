@@ -83,7 +83,7 @@ export function LoginForm({ role }: { role: string }) {
                 </div>
             </div>
             <Button type="submit" variant="primary" className="w-full">
-                Sign in
+                Login
             </Button>
         </form>
     );

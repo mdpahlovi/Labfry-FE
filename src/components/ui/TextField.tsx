@@ -26,7 +26,9 @@ const TextField: React.FC<TextFieldProps> = ({ label, type = "text", value, onCh
                 name={name}
                 value={value}
                 onChange={onChange}
-                className={`peer w-full rounded-lg border border-gray-300 px-4 py-3.5 text-gray-800 ${error ? "border-red-500" : ""}`}
+                className={`peer w-full rounded-lg border border-gray-300 px-4 py-3.5 text-gray-800 focus:outline-none ${
+                    error ? "border-red-500" : ""
+                }`}
             />
             {label && (
                 <label
