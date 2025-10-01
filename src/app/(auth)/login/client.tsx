@@ -30,7 +30,7 @@ export function LoginForm({ role }: { role: string }) {
         validationSchema: loginSchema,
         onSubmit: async ({ email, password }) => {
             try {
-                const response = await axios.post("/auth/login", { email, password });
+                const response = await axios.post("/auth/signin", { email, password });
                 const { user, accToken, refToken } = response.data;
 
                 if (user && accToken && refToken) {
