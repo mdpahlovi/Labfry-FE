@@ -19,7 +19,7 @@ const Button: React.FC<ButtonProps> = ({
     disabled = false,
     loading = false,
 }) => {
-    const baseStyles = "h-12 flex items-center justify-center rounded-xl px-4 font-semibold transition-colors";
+    const baseStyles = "h-12 flex items-center justify-center gap-2 rounded-xl px-4 font-semibold transition-colors";
 
     const variantStyles = {
         primary: "bg-[#EE3638] text-white hover:bg-[#EE3638]/80",

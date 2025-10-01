@@ -26,7 +26,7 @@ export default async function SuccessPage(props: { searchParams?: Promise<{ emai
             {flow === "register" ? (
                 <>
                     <h2 className="text-3xl text-center font-bold tracking-tight text-gray-900">Account Created Successfully!</h2>
-                    <Link href="/">
+                    <Link href="/" className="w-full">
                         <Button className="w-full">Go to Home</Button>
                     </Link>
                     <LoginUser email={email!} role={role!} flow={flow!} />
@@ -34,7 +34,7 @@ export default async function SuccessPage(props: { searchParams?: Promise<{ emai
             ) : (
                 <>
                     <h2 className="text-3xl text-center font-bold tracking-tight text-gray-900">Password Changed Successfully!</h2>
-                    <Link href={`/login?role=${role}`}>
+                    <Link href={`/login?role=${role}`} className="w-full">
                         <Button className="w-full">Go to Login</Button>
                     </Link>
                 </>

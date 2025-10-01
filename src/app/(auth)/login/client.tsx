@@ -82,7 +82,7 @@ export function LoginForm({ role }: { role: string }) {
                     </Link>
                 </div>
             </div>
-            <Button type="submit" variant="primary" className="w-full">
+            <Button type="submit" variant="primary" className="w-full" loading={formik.isSubmitting}>
                 Login
             </Button>
         </form>

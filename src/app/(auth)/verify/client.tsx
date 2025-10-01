@@ -2,7 +2,7 @@
 
 import Button from "@/components/ui/Button";
 import axios from "@/utils/axios";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -10,12 +10,42 @@ export function VerifyForm({ email, role, flow }: { email: string; role: string;
     const router = useRouter();
 
     const [loading, setLoading] = useState(false);
+    const [resending, setResending] = useState(false);
     const [code, setCode] = useState(["", "", "", "", "", ""]);
+    const [timer, setTimer] = useState(0);
     const inputRef = useRef<(HTMLInputElement | null)[]>([]);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
         inputRef.current = inputRef.current.slice(0, 6);
+        startTimer(60);
+
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        };
     }, []);
+
+    const startTimer = (seconds: number) => {
+        setTimer(seconds);
+
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+
+        intervalRef.current = setInterval(() => {
+            setTimer((prev) => {
+                if (prev <= 1) {
+                    if (intervalRef.current) {
+                        clearInterval(intervalRef.current);
+                    }
+                    return 0;
+                }
+                return prev - 1;
+            });
+        }, 1000);
+    };
 
     const handleChange = (index: number, value: string) => {
         if (value.length <= 1) {
@@ -43,7 +73,7 @@ export function VerifyForm({ email, role, flow }: { email: string; role: string;
         if (flow === "register") {
             purpose = "VERIFY_EMAIL";
         } else if (flow === "password") {
-            purpose = "RESET_PASSWORD";
+            purpose = "PASSWORD_RESET";
         }
 
         try {
@@ -61,6 +91,40 @@ export function VerifyForm({ email, role, flow }: { email: string; role: string;
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleResendCode = async () => {
+        if (timer > 0 || resending) return;
+
+        setResending(true);
+
+        let purpose = "";
+        if (flow === "register") {
+            purpose = "VERIFY_EMAIL";
+        } else if (flow === "password") {
+            purpose = "PASSWORD_RESET";
+        }
+
+        try {
+            await axios.post("/auth/resend-code", { email, purpose });
+            toast.success("Code resent successfully. Please check your email");
+
+            setCode(["", "", "", "", "", ""]);
+            inputRef.current[0]?.focus();
+
+            startTimer(60);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            toast.error(error?.message || "Failed to resend code");
+        } finally {
+            setResending(false);
+        }
+    };
+
+    const formatTime = (seconds: number) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, "0")}`;
     };
 
     return (
@@ -88,9 +152,18 @@ export function VerifyForm({ email, role, flow }: { email: string; role: string;
             </form>
             <p className="mt-6 text-sm text-center">
                 Don&rsquo;t have a code?{" "}
-                <button type="button" className="font-medium text-[#EE3638] hover:text-[#EE3638]/80">
-                    Resend code
-                </button>
+                {timer > 0 ? (
+                    <span className="font-medium text-gray-500">Resend in {formatTime(timer)}</span>
+                ) : (
+                    <button
+                        type="button"
+                        onClick={handleResendCode}
+                        disabled={resending}
+                        className="font-medium text-[#EE3638] hover:text-[#EE3638]/80 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {resending ? "Sending..." : "Resend code"}
+                    </button>
+                )}
             </p>
         </>
     );
